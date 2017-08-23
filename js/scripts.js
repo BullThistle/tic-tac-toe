@@ -1,61 +1,67 @@
-
-
-
-
 //business logic
-function Player(mark){
+function Player(mark, turn){
   this.mark = mark;
+  this.turn = turn;
+  this.taken = [];
 }
 
-function space(){
-  // debugger;
-  // alert(pos);
-  alert(pos[0][0]);
-  $("#bob").text("HI");
-  $("#2").text(pos[1][0]);
-  $("#3").text(pos[2][0]);
-  $("#4").text(pos[0][1]);
-  $("#5").text(pos[1][1]);
-  $("#6").text(pos[2][1]);
-  $("#7").text(pos[0][2]);
-  $("#8").text(pos[1][2]);
-  $("#9").text(pos[2][2]);
+var playerX = new Player("X", true);
+var playerO = new Player("O", false);
+
+function playerXTurn(){
+  playerX.turn = true;
+  playerO.turn = false;
 }
 
-// function (){
-//
-// alert(pos);
-// //   for(var i = 0; i < 3; i++){
-// //     for(var j = 0; j < 3; j++){
-// //       pos[i][j]= i;
-// //       debugger;
-// //     }
-// //   }
-// }
+function playerOTurn(){
+  playerX.turn = false;
+  playerO.turn = true;
+}
 
-function Game(){
+function xWins(){
+  $("#xwins").append("X wins! ");
+  reset();
+}
 
+function oWins(){
+  $("#owins").append("O wins! ");
+  reset();
+}
+
+function reset(){
+  $("#1").empty();
+  $("#2").empty();
+  $("#3").empty();
+  $("#4").empty();
+  $("#5").empty();
+  $("#6").empty();
+  $("#7").empty();
+  $("#8").empty();
+  $("#9").empty();
+
+  playerX.taken = [];
+  playerO.taken = [];
 }
 
 function won(){
   var temp = 0;
-  if(((pos[0][0] == "X") && (pos[1][0] == "X") && (pos[2][0] == "X")) ||
-     ((pos[0][1] == "X") && (pos[1][1] == "X") && (pos[2][1] == "X")) ||
-     ((pos[0][2] == "X") && (pos[1][2] == "X") && (pos[2][2] == "X")) ||
-     ((pos[0][0] == "X") && (pos[0][1] == "X") && (pos[0][2] == "X")) ||
-     ((pos[1][0] == "X") && (pos[1][1] == "X") && (pos[1][2] == "X")) ||
-     ((pos[2][0] == "X") && (pos[2][1] == "X") && (pos[2][2] == "X")) ||
-     ((pos[0][0] == "X") && (pos[1][1] == "X") && (pos[2][2] == "X")) ||
-     ((pos[2][0] == "X") && (pos[1][1] == "X") && (pos[0][2] == "X"))) {
+  if((playerX.taken.includes(1)) && (playerX.taken.includes(2)) && (playerX.taken.includes(3)) ||
+     (playerX.taken.includes(4)) && (playerX.taken.includes(5)) && (playerX.taken.includes(6)) ||
+     (playerX.taken.includes(7)) && (playerX.taken.includes(8)) && (playerX.taken.includes(9)) ||
+     (playerX.taken.includes(1)) && (playerX.taken.includes(4)) && (playerX.taken.includes(7)) ||
+     (playerX.taken.includes(2)) && (playerX.taken.includes(5)) && (playerX.taken.includes(8)) ||
+     (playerX.taken.includes(3)) && (playerX.taken.includes(6)) && (playerX.taken.includes(9)) ||
+     (playerX.taken.includes(1)) && (playerX.taken.includes(5)) && (playerX.taken.includes(9)) ||
+     (playerX.taken.includes(3)) && (playerX.taken.includes(5)) && (playerX.taken.includes(7))) {
       temp = 1;
-    } else if(((pos[0][0] == "O") && (pos[1][0] == "O") && (pos[2][0] == "O")) ||
-       ((pos[0][1] == "O") && (pos[1][1] == "O") && (pos[2][1] == "O")) ||
-       ((pos[0][2] == "O") && (pos[1][2] == "O") && (pos[2][2] == "O")) ||
-       ((pos[0][0] == "O") && (pos[0][1] == "O") && (pos[0][2] == "O")) ||
-       ((pos[1][0] == "O") && (pos[1][1] == "O") && (pos[1][2] == "O")) ||
-       ((pos[2][0] == "O") && (pos[2][1] == "O") && (pos[2][2] == "O")) ||
-       ((pos[0][0] == "O") && (pos[1][1] == "O") && (pos[2][2] == "O")) ||
-       ((pos[2][0] == "O") && (pos[1][1] == "O") && (pos[0][2] == "O"))) {
+    } else if((playerO.taken.includes(1)) && (playerO.taken.includes(2)) && (playerO.taken.includes(3)) ||
+       (playerO.taken.includes(4)) && (playerO.taken.includes(5)) && (playerO.taken.includes(6)) ||
+       (playerO.taken.includes(7)) && (playerO.taken.includes(8)) && (playerO.taken.includes(9)) ||
+       (playerO.taken.includes(1)) && (playerO.taken.includes(4)) && (playerO.taken.includes(7)) ||
+       (playerO.taken.includes(2)) && (playerO.taken.includes(5)) && (playerO.taken.includes(8)) ||
+       (playerO.taken.includes(3)) && (playerO.taken.includes(6)) && (playerO.taken.includes(9)) ||
+       (playerO.taken.includes(1)) && (playerO.taken.includes(5)) && (playerO.taken.includes(9)) ||
+       (playerO.taken.includes(3)) && (playerO.taken.includes(5)) && (playerO.taken.includes(7))) {
       temp = 2;
     }
     return temp;
@@ -64,17 +70,20 @@ function won(){
 //user interface
 $(document).ready(function(){
   $("td").on("click", function(){
-    ($(this).html(playerX.mark));
+    if(playerX.turn == true){
+      ($(this).html(playerX.mark));
+       playerX.taken.push(parseInt($(this).attr("id")));
+      playerOTurn();
+    }else if(playerO.turn == true){
+      ($(this).html(playerO.mark));
+      playerO.taken.push(parseInt($(this).attr("id")));
+      playerXTurn();
+    }
+    var winCheck = won();
+    if(winCheck == 1){
+      xWins();
+    } else if(winCheck == 2){
+      oWins();
+    }
   });
 });
-var pos = [
-  ["I","I","I"],
-  ["I","I","I"],
-  ["I","I","I"]
-];
-
-var playerX = new Player("X");
-var playerO = new Player("O");
-// var  = new ();
-space();
-$("#bob").append("HI");
