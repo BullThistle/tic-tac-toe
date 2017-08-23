@@ -1,54 +1,80 @@
+
+
+
+
 //business logic
 function Player(mark){
   this.mark = mark;
-
 }
 
-function Space(){
-
+function space(){
+  // debugger;
+  // alert(pos);
+  alert(pos[0][0]);
+  $("#bob").text("HI");
+  $("#2").text(pos[1][0]);
+  $("#3").text(pos[2][0]);
+  $("#4").text(pos[0][1]);
+  $("#5").text(pos[1][1]);
+  $("#6").text(pos[2][1]);
+  $("#7").text(pos[0][2]);
+  $("#8").text(pos[1][2]);
+  $("#9").text(pos[2][2]);
 }
 
-function Board(){
-
-}
+// function (){
+//
+// alert(pos);
+// //   for(var i = 0; i < 3; i++){
+// //     for(var j = 0; j < 3; j++){
+// //       pos[i][j]= i;
+// //       debugger;
+// //     }
+// //   }
+// }
 
 function Game(){
 
 }
 
-function won(x, y){
-  if(((x == 1 && y == 1) && (x == 2 && y == 2) && (x == 3 && y == 3)) ||
-     ((x == 3 && y == 1) && (x == 2 && y == 2) && (x == 1 && y == 3)) ||
-     ((x == 2 && y == 1) && (x == 2 && y == 2) && (x == 2 && y == 3)) ||
-     ((x == 3 && y == 1) && (x == 3 && y == 2) && (x == 3 && y == 3)) ||
-     ((x == 1 && y == 2) && (x == 2 && y == 2) && (x == 3 && y == 2)) ||
-     ((x == 1 && y == 1) && (x == 1 && y == 2) && (x == 1 && y == 3)) ||
-     ((x == 1 && y == 1) && (x == 2 && y == 1) && (x == 3 && y == 1)) ||
-     ((x == 2 && y == 1) && (x == 2 && y == 2) && (x == 2 && y == 3)) ||
-     ((x == 1 && y == 1) && (x == 2 && y == 2) && (x == 3 && y == 3)) ||
-     ((x == 1 && y == 1) && (x == 2 && y == 2) && (x == 3 && y == 3)) {
-       return true;
-     } else {
-       return false;
-     }
-
-
-
-
-
-
-
-
-   ){
-
+function won(){
+  var temp = 0;
+  if(((pos[0][0] == "X") && (pos[1][0] == "X") && (pos[2][0] == "X")) ||
+     ((pos[0][1] == "X") && (pos[1][1] == "X") && (pos[2][1] == "X")) ||
+     ((pos[0][2] == "X") && (pos[1][2] == "X") && (pos[2][2] == "X")) ||
+     ((pos[0][0] == "X") && (pos[0][1] == "X") && (pos[0][2] == "X")) ||
+     ((pos[1][0] == "X") && (pos[1][1] == "X") && (pos[1][2] == "X")) ||
+     ((pos[2][0] == "X") && (pos[2][1] == "X") && (pos[2][2] == "X")) ||
+     ((pos[0][0] == "X") && (pos[1][1] == "X") && (pos[2][2] == "X")) ||
+     ((pos[2][0] == "X") && (pos[1][1] == "X") && (pos[0][2] == "X"))) {
+      temp = 1;
+    } else if(((pos[0][0] == "O") && (pos[1][0] == "O") && (pos[2][0] == "O")) ||
+       ((pos[0][1] == "O") && (pos[1][1] == "O") && (pos[2][1] == "O")) ||
+       ((pos[0][2] == "O") && (pos[1][2] == "O") && (pos[2][2] == "O")) ||
+       ((pos[0][0] == "O") && (pos[0][1] == "O") && (pos[0][2] == "O")) ||
+       ((pos[1][0] == "O") && (pos[1][1] == "O") && (pos[1][2] == "O")) ||
+       ((pos[2][0] == "O") && (pos[2][1] == "O") && (pos[2][2] == "O")) ||
+       ((pos[0][0] == "O") && (pos[1][1] == "O") && (pos[2][2] == "O")) ||
+       ((pos[2][0] == "O") && (pos[1][1] == "O") && (pos[0][2] == "O"))) {
+      temp = 2;
+    }
+    return temp;
   }
-}
 
 //user interface
 $(document).ready(function(){
-
+  $("td").on("click", function(){
+    ($(this).html(playerX.mark));
+  });
 });
-var playerX = new Player();
-var playerO = new Player();
-var space = new Space();
-var board = new Board();
+var pos = [
+  ["I","I","I"],
+  ["I","I","I"],
+  ["I","I","I"]
+];
+
+var playerX = new Player("X");
+var playerO = new Player("O");
+// var  = new ();
+space();
+$("#bob").append("HI");
